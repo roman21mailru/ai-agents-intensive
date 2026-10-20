@@ -1,0 +1,85 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "enabled_providers": [
+    "agentplatform"
+  ],
+  "watcher": {
+    "ignore": [
+      ".venv/**",
+      "**/__pycache__/**",
+      ".git/**",
+      ".bootstrap/**",
+      "node_modules/**",
+      "**/.mypy_cache/**",
+      "**/.ruff_cache/**",
+      "**/htmlcov/**"
+    ]
+  },
+  "provider": {
+    "agentplatform": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "AgentPlatform",
+      "options": {
+        "baseURL": "https://api.agentplatform.ru/v1",
+        "apiKey": "{env:AGENTPLATFORM_API_KEY}"
+      },
+      "models": {
+        "z-ai/glm-5.2": {
+          "name": "GLM 5.2",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "sort": "throughput"
+            }
+          }
+        },
+        "deepseek/deepseek-v4-pro": {
+          "name": "DeepSeek V4 Pro",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "order": [
+                "baidu",
+                "together",
+                "deepinfra"
+              ],
+              "allow_fallbacks": true
+            }
+          }
+        },
+        "moonshotai/kimi-k3": {
+          "name": "Kimi K3",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "sort": "throughput"
+            }
+          }
+        },
+        "qwen/qwen3-coder": {
+          "name": "Qwen3 Coder",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "sort": "throughput"
+            }
+          }
+        }
+      }
+    }
+  },
+  "model": "agentplatform/z-ai/glm-5.2",
+  "small_model": "agentplatform/qwen/qwen3-coder"
+}

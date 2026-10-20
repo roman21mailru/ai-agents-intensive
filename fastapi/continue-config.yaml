@@ -1,0 +1,97 @@
+name: agentplatform-workshop
+version: 0.0.4
+schema: v1
+models:
+  - name: GLM 5.2
+    provider: openai
+    model: z-ai/glm-5.2
+    apiBase: https://api.agentplatform.ru/v1
+    apiKey: ${{ secrets.AGENTPLATFORM_API_KEY }}
+    roles: [chat]
+    capabilities: [tool_use]
+    chatOptions:
+      baseAgentSystemMessage: |-
+        Ты работаешь в Continue 2.0.0 Agent mode. Для создания и изменения файлов используй только native file tools Continue.
+        Никогда не имитируй tool call текстом и не записывай в файлы план, рассуждения, Markdown-обёртку, JSON tool call, reasoning_content или служебный протокол.
+        Если native file tool недоступен, остановись и сообщи пользователю, что модель/конфиг не прошли tool-use gate.
+        После записи файла прочитай его инструментом и проверь, что содержимое ровно соответствует заданному формату без лишних строк.
+    defaultCompletionOptions:
+      temperature: 0
+      maxTokens: 8192
+    requestOptions:
+      extraBodyProperties:
+        reasoning:
+          enabled: false
+        provider:
+          sort: throughput
+  - name: Kimi K3
+    provider: openai
+    model: moonshotai/kimi-k3
+    apiBase: https://api.agentplatform.ru/v1
+    apiKey: ${{ secrets.AGENTPLATFORM_API_KEY }}
+    roles: [chat]
+    capabilities: [tool_use]
+    chatOptions:
+      baseAgentSystemMessage: |-
+        Ты работаешь в Continue 2.0.0 Agent mode. Для создания и изменения файлов используй только native file tools Continue.
+        Никогда не имитируй tool call текстом и не записывай в файлы план, рассуждения, Markdown-обёртку, JSON tool call, reasoning_content или служебный протокол.
+        Если native file tool недоступен, остановись и сообщи пользователю, что модель/конфиг не прошли tool-use gate.
+        После записи файла прочитай его инструментом и проверь, что содержимое ровно соответствует заданному формату без лишних строк.
+    defaultCompletionOptions:
+      temperature: 0
+      maxTokens: 8192
+    requestOptions:
+      extraBodyProperties:
+        reasoning:
+          exclude: true
+        provider:
+          sort: throughput
+  - name: DeepSeek V4 Pro
+    provider: openai
+    model: deepseek/deepseek-v4-pro
+    apiBase: https://api.agentplatform.ru/v1
+    apiKey: ${{ secrets.AGENTPLATFORM_API_KEY }}
+    roles: [chat]
+    capabilities: [tool_use]
+    chatOptions:
+      baseAgentSystemMessage: |-
+        Ты работаешь в Continue 2.0.0 Agent mode. Для создания и изменения файлов используй только native file tools Continue.
+        Никогда не имитируй tool call текстом и не записывай в файлы план, рассуждения, Markdown-обёртку, JSON tool call, reasoning_content или служебный протокол.
+        Если native file tool недоступен, остановись и сообщи пользователю, что модель/конфиг не прошли tool-use gate.
+        После записи файла прочитай его инструментом и проверь, что содержимое ровно соответствует заданному формату без лишних строк.
+    defaultCompletionOptions:
+      temperature: 0
+      maxTokens: 8192
+    requestOptions:
+      extraBodyProperties:
+        reasoning:
+          enabled: false
+        provider:
+          order: [baidu, together, deepinfra]
+          allow_fallbacks: true
+  - name: Qwen3 Coder
+    provider: openai
+    model: qwen/qwen3-coder
+    apiBase: https://api.agentplatform.ru/v1
+    apiKey: ${{ secrets.AGENTPLATFORM_API_KEY }}
+    roles: [chat]
+    capabilities: [tool_use]
+    chatOptions:
+      baseAgentSystemMessage: |-
+        Ты работаешь в Continue 2.0.0 Agent mode. Для создания и изменения файлов используй только native file tools Continue.
+        Никогда не имитируй tool call текстом и не записывай в файлы план, рассуждения, Markdown-обёртку, JSON tool call, reasoning_content или служебный протокол.
+        Если native file tool недоступен, остановись и сообщи пользователю, что модель/конфиг не прошли tool-use gate.
+        После записи файла прочитай его инструментом и проверь, что содержимое ровно соответствует заданному формату без лишних строк.
+    defaultCompletionOptions:
+      temperature: 0
+      maxTokens: 8192
+    requestOptions:
+      extraBodyProperties:
+        reasoning:
+          enabled: false
+        provider:
+          sort: throughput
+rules:
+  - Изменяй файлы только нативными инструментами Agent mode. Не помещай планы, рассуждения, служебный JSON и разметку tool calls в содержимое файлов.
+  - Если native file tool недоступен или Continue предлагает текстовую имитацию tool call, остановись и сообщи пользователю; не вставляй JSON, Markdown, план или reasoning в файл.
+  - После создания или изменения файла прочитай его инструментом и проверь, что содержимое совпадает с запрошенным форматом без лишних строк.
